@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from sklearn import svm
+from sklearn.metrics import mean_absolute_percentage_error
+from math import sqrt
 
 
 data = pd.read_csv('../data/possum.csv')
@@ -57,15 +59,15 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3)
 
 st.title("Support Vector Machines polinom")
 st.write("Предобработанные данные датасета были разделены на обучающую и тестовую выборки.")
-st.write("Обучаем классификатор SVM с полиномиальным ядром на данном датасете.")
+st.write("Обучаем модель SVM для регрессии с полиномиальным ядром на данном датасете.")
 # классификатор
 svc = svm.SVR(kernel='poly')
 svc.fit(x_train, y_train)
 y_pred_svc = svc.predict(x_test)
 # метрики
-st.write("## Оценка качества классификатора")
-st.write(f"Точность: {accuracy_score(y_test, y_pred_svc)}")
-st.write(f"Площадь под ROC-кривой (AUC): {roc_auc_score(y_test['loan_status'], y_pred_svc)}")
+st.write("## Оценка качества модели")
+print(f'MAPE: {sqrt(mean_absolute_percentage_error(y_test, y_pred_svr))}')
+print(f'R^2: {svr.score(x_test, y_test)}')
 
 
 cm = confusion_matrix(y_test['loan_status'],y_pred_svc)
